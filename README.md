@@ -1,41 +1,92 @@
 # pramana-ts-sdk
 
-TypeScript SDK for the [Pramana](https://pramana-data.ca) knowledge graph. Provides exact-arithmetic value types, item model mapping, and data source connectors for working with Pramana data in TypeScript.
+TypeScript SDK for the [Pramana](https://pramana-data.ca) knowledge graph. Provides exact-arithmetic value types for working with Pramana data in TypeScript.
+
+> **Note:** This SDK is being developed as a learning project — TypeScript is a language I'm still picking up for the first time through vibecoding. If you have experience with TypeScript and want to help improve the code quality, contributions and feedback are very welcome! The C# and Python SDKs are more mature by comparison.
 
 ## Status
 
-**Pre-implementation** - Project structure and implementation plan documented. See [IMPLEMENTATION.md](IMPLEMENTATION.md) for the full design.
+**Phase 1 implemented** — Core Gaussian arithmetic and Pramana identity generation are working. ORM mapping and data sources are planned for future phases.
 
-## Key Features (Planned)
+### What's implemented
 
-- **GaussianRational** (standard short name: **Gauss**; Gaussian integers: **Gint**) - Exact complex rational arithmetic (`a/b + (c/d)i`) with native `bigint`
-- **Deterministic Pramana IDs** - UUID v5 generation matching the canonical Pramana web app
-- **Full type safety** - Strict TypeScript with complete `.d.ts` declarations
-- **ORM-style entity mapping** - TC39 decorators with proposition-backed fields
-- **Multiple data sources** - `.pra` files, SPARQL, REST API
+- **Gint** — Gaussian integers (Z[i]) with full arithmetic, number theory (GCD, xGCD, primality), and associates
+- **Gauss** — Gaussian rationals (Q[i]) with exact rational arithmetic, formatting, and math utilities
+- **UUID v5** — Deterministic Pramana ID generation matching the canonical Pramana web app
+- **Number theory** — `isPrime`, `gcd`, fraction normalization
+- **137 passing tests** across all modules
 
-## Installation (Future)
+## Installation
 
 ```bash
 npm install @pramana/sdk
 ```
 
-## Quick Example (Planned API)
+Requires Node 18+ (uses native `bigint` and `crypto`).
+
+## Quick Example
 
 ```typescript
-import { GaussianRational } from '@pramana/sdk';
+import { Gint, Gauss, isPrime } from '@pramana/sdk';
 
-const half = new GaussianRational(1n, 2n, 0n, 1n);   // 1/2
-const third = new GaussianRational(1n, 3n, 0n, 1n);  // 1/3
-const result = half.add(third);                        // 5/6
+// Gaussian integers
+const a = new Gint(3, 4);          // 3 + 4i
+const b = new Gint(1, -2);         // 1 - 2i
+const product = a.mul(b);          // 11 - 2i
+console.log(product.toString());   // "11 - 2i"
 
-console.log(result.pramanaId);  // deterministic UUID v5
+// Gaussian rationals (exact arithmetic)
+const half = new Gauss(1, 2, 0, 1);   // 1/2
+const third = new Gauss(1, 3, 0, 1);  // 1/3
+const sum = half.add(third);           // 5/6
+console.log(sum.toString());          // "5/6"
+
+// Pramana identity
+console.log(a.pramanaId);      // deterministic UUID v5
+console.log(a.pramanaLabel);   // "pra:num:3,1,4,1"
+console.log(a.pramanaUrl);     // "https://pramana-data.ca/entity/..."
+
+// Number theory
+console.log(Gint.isGaussianPrime(new Gint(3, 0)));  // true (3 ≡ 3 mod 4)
+console.log(Gint.isGaussianPrime(new Gint(2, 1)));  // true (norm 5 is prime)
+
+const [gcd, x, y] = Gint.xgcd(new Gint(11, 3), new Gint(1, 8));
+// gcd = alpha*x + beta*y (Bezout's identity)
 ```
+
+## API Overview
+
+### Gint (Gaussian Integer)
+
+| Feature | Examples |
+|---------|----------|
+| Construction | `new Gint(3, 4)`, `Gint.ZERO`, `Gint.I`, `Gint.fromArray([3, 4])` |
+| Arithmetic | `.add()`, `.sub()`, `.mul()`, `.div()` (returns Gauss), `.pow()`, `.mod()`, `.neg()` |
+| Properties | `.real`, `.imag`, `.norm`, `.conjugate`, `.isUnit`, `.isZero`, `.isReal` |
+| Number theory | `Gint.gcd()`, `Gint.xgcd()`, `Gint.isGaussianPrime()`, `Gint.modifiedDivmod()` |
+| Identity | `.pramanaId`, `.pramanaKey`, `.pramanaLabel`, `.pramanaUrl` |
+| Formatting | `.toString()`, `.toRawString()`, `.toJSON()` |
+
+### Gauss (Gaussian Rational)
+
+| Feature | Examples |
+|---------|----------|
+| Construction | `new Gauss(a, b, c, d)`, `Gauss.fromInt(5)`, `Gauss.fromComplex(3, 4)`, `Gauss.parse("3,2,5,7")` |
+| Arithmetic | `.add()`, `.sub()`, `.mul()`, `.div()`, `.pow()`, `.mod()`, `.neg()` |
+| Properties | `.a`, `.b`, `.c`, `.d`, `.conjugate`, `.magnitudeSquared`, `.reciprocal`, `.phase` |
+| Classification | `.isReal`, `.isInteger`, `.isGaussianInteger`, `.isZero`, `.isOne` |
+| Math utilities | `Gauss.floor()`, `Gauss.ceiling()`, `Gauss.truncate()`, `Gauss.abs()`, `Gauss.sign()`, `Gauss.clamp()` |
+| Formatting | `.toString()` (mixed), `.toImproperString()`, `.toRawString()`, `.toDecimalString()` |
+
+### Aliases
+
+- `Zi` = `Gint` (mathematical notation for Z[i])
+- `Qi` = `Gauss` (mathematical notation for Q[i])
 
 ## Documentation
 
-- [General SDK Specification](08_SDK_LIBRARY_SPECIFICATION.md) - Cross-language design spec
-- [TypeScript Implementation Guide](IMPLEMENTATION.md) - TypeScript-specific implementation details
+- [General SDK Specification](08_SDK_LIBRARY_SPECIFICATION.md) — Cross-language design spec
+- [TypeScript Implementation Guide](IMPLEMENTATION.md) — TypeScript-specific details
 
 ## Acknowledgments
 
