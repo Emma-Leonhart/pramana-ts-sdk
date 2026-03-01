@@ -4,7 +4,7 @@ import { createHash } from 'crypto';
 export const PRAMANA_NAMESPACE = 'a6613321-e9f6-4348-8f8b-29d2a3c86349';
 
 /** Base URL for Pramana entity lookups. */
-export const PRAMANA_BASE_URL = 'https://pramana-data.ca/entity/';
+export const PRAMANA_BASE_URL = 'https://pramana.dev/entity/';
 
 /**
  * Generates a UUID v5 (SHA-1 name-based) from a namespace UUID and a name string.

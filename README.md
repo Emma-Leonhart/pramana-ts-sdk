@@ -1,6 +1,6 @@
 # pramana-ts-sdk
 
-TypeScript SDK for the [Pramana](https://pramana-data.ca) knowledge graph. Provides exact-arithmetic value types for working with Pramana data in TypeScript.
+TypeScript SDK for the [Pramana](https://pramana.dev) knowledge graph. Provides exact-arithmetic value types for working with Pramana data in TypeScript.
 
 > **Note:** This SDK is being developed as a learning project — TypeScript is a language I'm still picking up for the first time through vibecoding. If you have experience with TypeScript and want to help improve the code quality, contributions and feedback are very welcome! The C# and Python SDKs are more mature by comparison.
 
@@ -44,7 +44,7 @@ console.log(sum.toString());          // "5/6"
 // Pramana identity
 console.log(a.pramanaId);      // deterministic UUID v5
 console.log(a.pramanaLabel);   // "pra:num:3,1,4,1"
-console.log(a.pramanaUrl);     // "https://pramana-data.ca/entity/..."
+console.log(a.pramanaUrl);     // "https://pramana.dev/entity/..."
 
 // Number theory
 console.log(Gint.isGaussianPrime(new Gint(3, 0)));  // true (3 ≡ 3 mod 4)
