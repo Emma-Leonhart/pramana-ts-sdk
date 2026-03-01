@@ -26,3 +26,10 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
+      - run: npm run build
+
+      - name: CJS smoke test
+        run: node -e "const {Gint} = require('./dist/cjs/index.js'); const g = new Gint(3,4); if (g.toString() !== '3 + 4i') process.exit(1); console.log('CJS OK:', g.toString())"
+
+      - name: ESM smoke test
+        run: node --input-type=module -e "import {Gint} from './dist/esm/index.js'; const g = new Gint(3,4); if (g.toString() !== '3 + 4i') process.exit(1); console.log('ESM OK:', g.toString())"
