@@ -4,7 +4,11 @@
       "Bash(git:*)",
       "Bash(npm install:*)",
       "Bash(npx vitest:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(node:*)",
+      "Bash(mv:*)"
     ]
   }
 }
