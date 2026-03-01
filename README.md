@@ -8,7 +8,7 @@ TypeScript SDK for the [Pramana](https://pramana-data.ca) knowledge graph. Provi
 
 ## Key Features (Planned)
 
-- **GaussianRational** - Exact complex rational arithmetic (`a/b + (c/d)i`) with native `bigint`
+- **GaussianRational** (standard short name: **Gauss**; Gaussian integers: **Gint**) - Exact complex rational arithmetic (`a/b + (c/d)i`) with native `bigint`
 - **Deterministic Pramana IDs** - UUID v5 generation matching the canonical Pramana web app
 - **Full type safety** - Strict TypeScript with complete `.d.ts` declarations
 - **ORM-style entity mapping** - TC39 decorators with proposition-backed fields
@@ -36,6 +36,10 @@ console.log(result.pramanaId);  // deterministic UUID v5
 
 - [General SDK Specification](08_SDK_LIBRARY_SPECIFICATION.md) - Cross-language design spec
 - [TypeScript Implementation Guide](IMPLEMENTATION.md) - TypeScript-specific implementation details
+
+## Acknowledgments
+
+The Gauss and Gint implementations across all Pramana SDKs were heavily inspired by [gaussian_integers](https://github.com/alreich/gaussian_integers) by **Alfred J. Reich, Ph.D.**, which provides exact arithmetic for Gaussian integers and Gaussian rationals in Python.
 
 ## Pramana SDK Family
 

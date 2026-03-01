@@ -122,7 +122,9 @@ pramana-ts-sdk/
 - **Vitest** for testing (fast, ESM-native)
 - **TC39 decorators** for ORM mapping (Stage 3+)
 
-## 3. GaussianRational Implementation
+## 3. GaussianRational (Gauss) Implementation
+
+> **Naming convention:** The standard short name for a Gaussian rational is **`Gauss`**. When referring specifically to a Gaussian integer (both denominators are 1), the standard short name is **`Gint`**.
 
 ### 3.1 Class Design
 
